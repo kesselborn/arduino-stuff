@@ -24,8 +24,6 @@ void bereite_motor_links_vor() {
 }
 
 int ledPin = 2;
-
-
 void setup() {
   bereite_motor_rechts_vor();
   bereite_motor_links_vor();
