@@ -29,3 +29,10 @@ und auf den Arduino hochladen. Danach ist es möglich, sich in snap4arduino zu v
 
 ## Work in progress
 - zur Zeit erzeugen die Buchstabenblöcke noch keinen Arduino-Code, weshalb das Beispielprogramm alle Blöcke expandiert hat ... dies ist relativ einfach zu fixen (mache ich noch)
+- [nodemcu](https://en.wikipedia.org/wiki/NodeMCU) statt Arduino-Nano probieren:
+  - bringt Wifi-Modul mit und ist unbedeutend (<1 €) teuerer
+  - Firmware-Flashen via Wifi geht wohl
+  - keine Ahnung ob genügend GPIO-Ports zur verfügung stehen
+  - empfohlen werden [Boards mit CP2102](https://www.ebay.de/itm/NodeMCU-v3-2-ESP8266-Dev-Kit-WIFI-Lolin-Amica-CP2102-v2-Arduino-IOT/252712258856?hash=item3ad6d30d28:g:TtsAAOSwlkpb3ZkV:rk:6:pf:0)
+- Servo statt Schrittmotor für Stift heben / senken: Servo ist schneller, billiger, einfacher zu steuern und braucht nur einen Port statt 4
+- Druckvorlage für das Breadboard erstellen ... da gibt es bestimmt 'ne Software für
