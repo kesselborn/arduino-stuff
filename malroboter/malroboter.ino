@@ -1,9 +1,5 @@
-int schritte = 2;
-int geschwindigkeit = 500;
-float schritte_pro_grad = 4.5;
-int schrittlaenge = 100;
-int delay_duration = 5;
-
+int schritte = 0;
+int grad = 0;
 int motor_rechts[4] = {4, 5, 6, 7};
 
 void bereite_motor_rechts_vor() {
@@ -12,7 +8,6 @@ void bereite_motor_rechts_vor() {
   pinMode(motor_rechts[2], OUTPUT);
   pinMode(motor_rechts[3], OUTPUT);
 }
-
 
 int motor_links[4] = {8, 9, 10, 11};
 
@@ -23,10 +18,25 @@ void bereite_motor_links_vor() {
   pinMode(motor_links[3], OUTPUT);
 }
 
+int motor_stiftheber[4] = {14, 15, 16, 17};
+
+void bereite_motor_stiftheber_vor() {
+  pinMode(motor_stiftheber[0], OUTPUT);
+  pinMode(motor_stiftheber[1], OUTPUT);
+  pinMode(motor_stiftheber[2], OUTPUT);
+  pinMode(motor_stiftheber[3], OUTPUT);
+}
+
+int geschwindigkeit = 300;
+float schritte_pro_grad = 2.985;
+int schrittlaenge = 50;
+int delay_duration = 5;
+
 int ledPin = 2;
 void setup() {
   bereite_motor_rechts_vor();
   bereite_motor_links_vor();
+  bereite_motor_stiftheber_vor();
   pinMode(ledPin, OUTPUT);
 }
 
@@ -68,7 +78,7 @@ void bewegen(int motor1[4], int motor2[4]) {
   delay(delay_duration);
 }
 
-void links_drehen() {
+void rechts_drehen() {
   ///////////////////////////// 1
   setze_motor_pins(motor_rechts, false, false, false, true);
   setze_motor_pins(motor_links, false, false, false, true);
@@ -90,7 +100,7 @@ void links_drehen() {
   delay(delay_duration);
 }
 
-void rechts_drehen() {
+void links_drehen() {
   ///////////////////////////// 1
   setze_motor_pins(motor_rechts, true, false, false, false);
   setze_motor_pins(motor_links, true, false, false, false);
@@ -127,26 +137,204 @@ void end_signal() {
   }
 }
 
+void stift_hoch() {
+  for(int i=0; i<300; i++) {
+    setze_motor_pins(motor_stiftheber, false, false, false, true);
+    delay(delay_duration);
+    setze_motor_pins(motor_stiftheber, false, false, true, false);
+    delay(delay_duration);
+    setze_motor_pins(motor_stiftheber, false, true, false, false);
+    delay(delay_duration);
+    setze_motor_pins(motor_stiftheber, true, false, false, false);
+    delay(delay_duration);
+ }
+}
+
+void stift_runter() {
+  for(int i=0; i<300; i++) {
+    setze_motor_pins(motor_stiftheber, true, false, false, false);
+    delay(delay_duration);
+    setze_motor_pins(motor_stiftheber, false, true, false, false);
+    delay(delay_duration);
+    setze_motor_pins(motor_stiftheber, false, false, true, false);
+    delay(delay_duration);
+    setze_motor_pins(motor_stiftheber, false, false, false, true);
+    delay(delay_duration);
+  }
+}
+
+
 bool running = false;
 void loop() {
   if(!running) {
     running = true;
     start_signal();
-    schritte = 3;
-
-    for (int j = 0; j < (schritte * schrittlaenge); j++) {
+    delay_duration = ((1.0/(1.0*geschwindigkeit))*1000.0)*1;
+    
+      schritte = 2;
+      schritte_pro_grad = 2.98;
+      schrittlaenge = 20;
+      geschwindigkeit = 300;
+    
+    stift_runter();
+    for (int j = 0; j < ((3 * schritte) * schrittlaenge); j++) {
       vorwaerts();
     }
-     for (int i = 0; i < (90 * schritte_pro_grad); i++) {
-       rechts_drehen();
-     }
-    for (int j = 0; j < (schritte * schrittlaenge); j++) {
+    for (int j = 0; j < ((1.5 * schritte) * schrittlaenge); j++) {
       rueckwaerts();
     }
     for (int i = 0; i < (90 * schritte_pro_grad); i++) {
+      rechts_drehen();  
+    }
+    
+    for (int j = 0; j < ((1 * schritte) * schrittlaenge); j++) {
+      vorwaerts();
+    }
+    for (int j = 0; j < (90 * schritte_pro_grad); j++) {
       links_drehen();
     }
+    
+    for (int j = 0; j < ((1.5 * schritte) * schrittlaenge); j++) {
+      vorwaerts();
+    }
+    for (int j = 0; j < ((3 * schritte) * schrittlaenge); j++) {
+      rueckwaerts();
+    }
+    stift_hoch();
+    for (int i = 0; i < (90 * schritte_pro_grad); i++) {
+      rechts_drehen();  
+    }
+    
+    for (int j = 0; j < ((0.5 * schritte) * schrittlaenge); j++) {
+      vorwaerts();
+    }
+    for (int j = 0; j < (90 * schritte_pro_grad); j++) {
+      links_drehen();
+    }
+    
+    
+    for (int i = 0; i < (20 * schritte_pro_grad); i++) {
+      rechts_drehen();  
+    }
+    
+    stift_runter();
+    for (int j = 0; j < ((3 * schritte) * schrittlaenge); j++) {
+      vorwaerts();
+    }
+    stift_hoch();
+    for (int j = 0; j < ((1.5 * schritte) * schrittlaenge); j++) {
+      rueckwaerts();
+    }
+    for (int i = 0; i < (70 * schritte_pro_grad); i++) {
+      rechts_drehen();  
+    }
+    
+    stift_runter();
+    for (int j = 0; j < ((1 * schritte) * schrittlaenge); j++) {
+      vorwaerts();
+    }
+    for (int j = 0; j < (110 * schritte_pro_grad); j++) {
+      links_drehen();
+    }
+    
+    for (int j = 0; j < ((1.5 * schritte) * schrittlaenge); j++) {
+      vorwaerts();
+    }
+    for (int j = 0; j < ((3 * schritte) * schrittlaenge); j++) {
+      rueckwaerts();
+    }
+    stift_hoch();
+    for (int i = 0; i < (110 * schritte_pro_grad); i++) {
+      rechts_drehen();  
+    }
+    
+    for (int j = 0; j < (0.5 * schrittlaenge); j++) {
+      vorwaerts();
+    }
+    for (int j = 0; j < (90 * schritte_pro_grad); j++) {
+      links_drehen();
+    }
+    
+    
+    for (int j = 0; j < ((3 * schritte) * schrittlaenge); j++) {
+      vorwaerts();
+    }
+    stift_runter();
+    for (int j = 0; j < ((3 * schritte) * schrittlaenge); j++) {
+      rueckwaerts();
+    }
+    for (int i = 0; i < (90 * schritte_pro_grad); i++) {
+      rechts_drehen();  
+    }
+    
+    for (int j = 0; j < ((1.5 * schritte) * schrittlaenge); j++) {
+      vorwaerts();
+    }
+    stift_hoch();
+    for (int j = 0; j < ((0.5 * schritte) * schrittlaenge); j++) {
+      vorwaerts();
+    }
+    for (int j = 0; j < (90 * schritte_pro_grad); j++) {
+      links_drehen();
+    }
+    
+    
+    for (int j = 0; j < ((3 * schritte) * schrittlaenge); j++) {
+      vorwaerts();
+    }
+    stift_runter();
+    for (int j = 0; j < ((3 * schritte) * schrittlaenge); j++) {
+      rueckwaerts();
+    }
+    for (int i = 0; i < (90 * schritte_pro_grad); i++) {
+      rechts_drehen();  
+    }
+    
+    for (int j = 0; j < ((1.5 * schritte) * schrittlaenge); j++) {
+      vorwaerts();
+    }
+    stift_hoch();
+    for (int j = 0; j < ((0.5 * schritte) * schrittlaenge); j++) {
+      vorwaerts();
+    }
+    for (int j = 0; j < (90 * schritte_pro_grad); j++) {
+      links_drehen();
+    }
+    
+    
+    stift_runter();
+    for (int j = 0; j < ((3 * schritte) * schrittlaenge); j++) {
+      vorwaerts();
+    }
+    for (int i = 0; i < (90 * schritte_pro_grad); i++) {
+      rechts_drehen();  
+    }
+    
+    for (int j = 0; j < ((1.5 * schritte) * schrittlaenge); j++) {
+      vorwaerts();
+    }
+    for (int i = 0; i < (90 * schritte_pro_grad); i++) {
+      rechts_drehen();  
+    }
+    
+    for (int j = 0; j < ((3 * schritte) * schrittlaenge); j++) {
+      vorwaerts();
+    }
+    for (int i = 0; i < (90 * schritte_pro_grad); i++) {
+      rechts_drehen();  
+    }
+    
+    for (int j = 0; j < ((1.5 * schritte) * schrittlaenge); j++) {
+      vorwaerts();
+    }
+    stift_hoch();
+    for (int j = 0; j < ((2 * schritte) * schrittlaenge); j++) {
+      rueckwaerts();
+    }
+    for (int i = 0; i < (90 * schritte_pro_grad); i++) {
+      rechts_drehen();  
+    }
+    
     end_signal();
   }
-  //  exit(0);
 }
