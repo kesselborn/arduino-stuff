@@ -2,6 +2,7 @@ int potpin = 0;
 int ledGelbPin = 8;
 int ledRotPin = 10;
 int knopfPin = 11;
+int potentiometer = 5;
 
 int speakerPin = 9;
 int length = 15; // the number of notes
@@ -43,9 +44,11 @@ void setup() {
 int knopfState = LOW;
 int gelbeLedState = LOW;
 void loop() {
+  tempo = analogRead(potentiometer) / 5;
+  Serial.println(tempo*10);
+
   int pot = analogRead(potpin);
   int knopf = digitalRead(knopfPin);
-  Serial.println(potpin);
   if(knopf == LOW) {
     knopfState = knopfState == HIGH ? LOW : HIGH;
     digitalWrite(ledRotPin, knopfState);
