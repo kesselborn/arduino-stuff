@@ -1,5 +1,8 @@
  
 #include <Servo.h>  //add '<' and '>' before and after servo.h
+
+#define POS1 150
+#define POS2 110
  
 int servoPin = 6;
 
@@ -45,7 +48,7 @@ void setup() {
   pinMode(speakerPin, OUTPUT);
   pinMode(knopfPin, INPUT);
   servo.attach(servoPin);
-  servo.write(180);
+  servo.write(POS1);
 
   Serial.println("hallo");
 }
@@ -60,7 +63,7 @@ void loop() {
   int pot = analogRead(potpin);
   int knopf = digitalRead(knopfPin);
   if(knopf == LOW) {
-    servo.write(180);
+    servo.write(POS1);
     knopfState = knopfState == HIGH ? LOW : HIGH;
     digitalWrite(ledRotPin, knopfState);
     
@@ -77,7 +80,7 @@ void loop() {
   }
 
   if(knopfState == HIGH) {
-    servo.write(0);
+    servo.write(POS2);
     gelbeLedState = gelbeLedState == HIGH ? LOW : HIGH;
     digitalWrite(ledGelbPin, gelbeLedState);
     delay(500);
