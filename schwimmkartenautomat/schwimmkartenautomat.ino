@@ -1,3 +1,8 @@
+ 
+#include <Servo.h>  //add '<' and '>' before and after servo.h
+ 
+int servoPin = 6;
+
 int potpin = 0;
 int ledGelbPin = 8;
 int ledRotPin = 10;
@@ -9,6 +14,7 @@ int length = 15; // the number of notes
 char notes[] = "ccggaagffeeddc "; // a space represents a rest
 int beats[] = { 1, 1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1, 1, 2, 4 };
 int tempo = 30;
+Servo servo; 
 
 void playTone(int tone, int duration) {
   for (long i = 0; i < duration * 1000L; i += tone * 2) {
@@ -38,11 +44,15 @@ void setup() {
   pinMode(ledRotPin, OUTPUT);
   pinMode(speakerPin, OUTPUT);
   pinMode(knopfPin, INPUT);
+  servo.attach(servoPin);
+  servo.write(180);
+
   Serial.println("hallo");
 }
 
 int knopfState = LOW;
 int gelbeLedState = LOW;
+
 void loop() {
   tempo = analogRead(potentiometer) / 5;
   Serial.println(tempo*10);
@@ -50,6 +60,7 @@ void loop() {
   int pot = analogRead(potpin);
   int knopf = digitalRead(knopfPin);
   if(knopf == LOW) {
+    servo.write(180);
     knopfState = knopfState == HIGH ? LOW : HIGH;
     digitalWrite(ledRotPin, knopfState);
     
@@ -66,10 +77,11 @@ void loop() {
   }
 
   if(knopfState == HIGH) {
+    servo.write(0);
     gelbeLedState = gelbeLedState == HIGH ? LOW : HIGH;
     digitalWrite(ledGelbPin, gelbeLedState);
     delay(500);
-  }
+  } 
 
   if(pot > 300 && knopfState == LOW) {
     digitalWrite(ledGelbPin, HIGH);

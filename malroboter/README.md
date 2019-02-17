@@ -25,6 +25,11 @@ Hier gibt es ein paar seltsame Schritte:
 - Datei abspeichern, ausgeben und die Ausgabe in die Zwischenablage kopieren
 - dann in die Arduino-IDE kopieren **auf macos kann nicht einfach die Datei geöffnet werden, da es Encoding-Probleme gibt**
 
+## Servo belegung
+- Orange: Data
+- Rot: 5v
+- Braun: Gnd
+
 ## Work in progress
 - zur Zeit erzeugen die Buchstabenblöcke noch keinen Arduino-Code, weshalb das Beispielprogramm alle Blöcke expandiert hat ... dies ist relativ einfach zu fixen (mache ich noch)
 - [nodemcu](https://en.wikipedia.org/wiki/NodeMCU) statt Arduino-Nano probieren:
